@@ -3,12 +3,13 @@ let numCells = 30; // Number of cells per row / col
 let fps = 30; // Frames of the game
 let gameArray = []; // The array depicting the current state of the game
 let gameState = 0; // The state of the game. 0 = Setup 1 = Active
+let canvas;
 
 // Initial setup of the game
 function setup() {
-    // Setup canvas 
-    let canvas = createCanvas(cellSize * numCells, cellSize * numCells);
+    canvas = createCanvas(windowWidth, windowHeight - 100); // Adjust height to account for title and button
     canvas.parent('canvas-area');
+    noLoop(); // Don't start the game until the button is clicked
 
     // Setup start button
     let button = createButton("Start Game");
@@ -16,9 +17,9 @@ function setup() {
     button.position(cellSize * numCells + cellSize, cellSize * numCells + cellSize);
 
     // Initialise the game array
-    for (r = 0; r < numCells; r++) {
+    for (row = 0; row < numCells; row++) {
         let rowArray = [];
-        for (c = 0; c < numCells; c++) {
+        for (col = 0; col < numCells; col++) {
             rowArray.push(0);
         }
         gameArray.push(rowArray);
@@ -33,9 +34,7 @@ function setup() {
 
 // Draw function
 function draw () {
-    // Sets the background colour of the canvas area
-    background(255);
-
+    background(220);
     // For each cell draw the square based on the array state
     for (row = 0; row < numCells; row++) {
         for (col = 0; col < numCells; col++) {
@@ -55,6 +54,10 @@ function draw () {
         // Apply conways game of life rules
         applyConwaysRules();      
     }
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight - 100); // Adjust height to account for title and button
 }
 
 // Mouse pressed function
@@ -80,5 +83,26 @@ function startGame() {
 
 // Function for conways rules logic
 function applyConwaysRules() {
+    // Find neighbours
+    for (row = 0; row < numCells; row++) {
+        for (col = 0; col < numCells; col++) {
+            let neighbours = 0;
+            
+            if (gameArray[row][col] === 1) {
 
+            }
+        }
+    }
+
+    // If cell poplulated:
+    // If neighbours = 0|1 cell 'dies'
+    // If neighbours = 2|3 cell 'survives' 
+    // If neighbours > 4 cell 'dies' to overpopulation
+
+    // If cell unpopulated and neighbours === 3 cell 'born'
 }
+
+document.getElementById('start-button').addEventListener('click', function() {
+    this.style.display = 'none'; // Hide the button
+    loop(); // Start the game loop
+});
